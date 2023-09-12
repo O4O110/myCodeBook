@@ -24,7 +24,7 @@ print(a or b)  #True
 
 # scan
 a = int(input())
-n=list(input().split(' ')) # 連續輸入一串用空格隔開的數字
+n=list(input().split(' '))           # 連續輸入一串用空格隔開的數字
 
 for i in range(a):
     c, d = map(int, input().split()) # 連續輸入兩個數
@@ -38,9 +38,9 @@ print('The parity of ',a,' is ',count,' (mod 2).')
 import math
 math.gcd(a, b, c, d, e) # 最大公約數
 math.lcm(a, b, c, d, e) # 最小公倍數
-math.fabs(x) # 絕對值
-math.isqrt(n) # 整數平方根
-math.sqrt(x) # 平方根
+math.fabs(x)   # 絕對值
+math.isqrt(n)  # 整數平方根
+math.sqrt(x)   # 平方根
 math.pow(x, y) # x^y
 
 # count
