@@ -1,60 +1,73 @@
 // 邊權重皆為正數時使用
 // 1. 輸入有總點、總邊，接著輸入點,點,距離（權重）時使用
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <climits>
+
 using namespace std;
-#define M 100005
-#define INF 1e9
-struct Edge{
-    int v, w;
-    Edge(int a, int b):v(a), w(b){};
-};
-struct node{
-    int u, dis;
-    node(){};
-    node(int a, int b):u(a), dis(b){};
-    bool operator<(const node &r)const{
-        return dis > r.dis;
-    }
-};
-int dis[M]; //距離
-vector<Edge> G[M];
-void init(){
-    fill(dis, dis+M, INF);
-    for(int i = 0; i < M; i++){
-        G[i].clear();
-    }
-}
-void dijkstra(int start){
-    dis[start] = 0;
-    priority_queue<node> pq;
-    pq.push(node(start, 0));
-    while(!pq.empty()){
-        node now = pq.top();
-        pq.pop();
-        if(now.dis > dis[now.u]) continue;
-        for(Edge i : G[now.u]){
-            if(dis[i.v] > now.dis + i.w){
-                dis[i.v] = now.dis + i.w;
-                pq.push(node(i.v, dis[i.v]));
-                // printf("push(%d, %d)\n", i.v, dis[i.v]);
+
+// 定義城市數量的上限
+#define MAX_CITIES 100
+
+// 定義無限大的距離
+#define INF INT_MAX
+
+// 城市數量、道路數量
+int numCities, numRoads;
+
+// 圖的鄰接矩陣表示法
+vector<vector<int>> graph(MAX_CITIES, vector<int>(MAX_CITIES, INF));
+
+// Dijkstra演算法，計算從指定城市出發到其他城市的最短路徑
+void dijkstra(int startCity) {
+    vector<int> dist(numCities, INF);
+    vector<bool> visited(numCities, false);
+
+    dist[startCity] = 0;
+
+    for (int i = 0; i < numCities - 1; i++) {
+        int u = -1;
+        for (int j = 0; j < numCities; j++) {
+            if (!visited[j] && (u == -1 || dist[j] < dist[u])) {
+                u = j;
             }
+        }
+
+        visited[u] = true;
+
+        for (int v = 0; v < numCities; v++) {
+            if (!visited[v] && graph[u][v] != INF) {
+                dist[v] = min(dist[v], dist[u] + graph[u][v]);
+            }
+        }
+    }
+
+    // 輸出最短路徑結果
+    cout << "從城市 " << startCity << " 出發到其他城市的最短路徑如下：" << endl;
+    for (int i = 0; i < numCities; i++) {
+        if (i != startCity) {
+            cout << "到城市 " << i << " 的最短距離為 " << dist[i] << endl;
         }
     }
 }
 
-int main(){
-	int point, side;
-    cin >> point >> side;
-    init();
-    for(int i = 0; i < side; i++){
-        int s, t, w;
-        cin >> s >> t >> w;
-        G[s].push_back(Edge(t, w));
-        G[t].push_back(Edge(s, w));
-    }
-    dijkstra(1);
-    for(int i = 2; i <= point; i++){
-        cout << dis[i] << '\n';
+int main() {
+    // 讀取城市數量和道路數量
+    cin >> numCities >> numRoads;
+
+    // 初始化圖的鄰接矩陣
+    for (int i = 0; i < numRoads; i++) {
+        int city1, city2, distance;
+        cin >> city1 >> city2 >> distance;
+        graph[city1][city2] = distance;
+        graph[city2][city1] = distance; // 因為是雙向道路
     }
 
+    // 選擇起始城市，這裡以城市0為例
+    int startCity = 0;
+
+    // 執行Dijkstra演算法
+    dijkstra(startCity);
+
+    return 0;
 }
