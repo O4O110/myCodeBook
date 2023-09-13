@@ -16,7 +16,7 @@ using namespace std;
 int numCities, numRoads;
 
 // 圖的鄰接矩陣表示法
-vector<vector<int>> graph(MAX_CITIES, vector<int>(MAX_CITIES, INF));
+vector<vector<int> > graph(MAX_CITIES, vector<int>(MAX_CITIES, INF));
 
 // Dijkstra演算法，計算從指定城市出發到其他城市的最短路徑
 void dijkstra(int startCity) {
