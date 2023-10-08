@@ -53,3 +53,6 @@ for(int i= 0; i < 9; i++){
 
 // <cmath>
 round(x) // 返回最接近x的整數
+log(x) // 以自然對數為底
+log10(x) // 以10為底
+log(x) / log(2) // 以2為底
